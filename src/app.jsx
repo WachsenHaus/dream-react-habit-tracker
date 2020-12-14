@@ -13,16 +13,11 @@ class App extends Component {
       { id: 2, name: "Coding", count: 0 },
     ],
   };
-  changeCount = (length) => {
-    const totalCount = length;
-    this.setState({ totalCount });
-  };
   handleIncrement = (habit) => {
     const habits = [...this.state.habits];
     const index = habits.indexOf(habit);
     habits[index].count++;
     this.setState({ habits });
-    this.changeCount(habits.length);
   };
   handleDecrement = (habit) => {
     const habits = [...this.state.habits];
@@ -30,33 +25,23 @@ class App extends Component {
     habits[index].count < 1 ? (habits[index].count = 0) : habits[index].count--;
 
     this.setState({ habits });
-    this.changeCount(habits.length);
   };
   handleDelete = (habit) => {
     const habits = this.state.habits.filter((item) => item.id !== habit.id);
     this.setState({ habits });
-    this.changeCount(habits.length);
   };
-  handleAdd = (inputText) => {
-    const habits = [...this.state.habits];
-    let lastIndex = habits.length - 1;
-
-    habits.push({
-      id: ++lastIndex,
-      name: inputText,
-      count: 0,
-    });
+  handleSubmit = (name) => {
+    const habits = [...this.state.habits, { id: Date.now(), name, count: 0 }];
     this.setState({ habits });
-    this.changeCount(habits.length);
   };
 
   render() {
     return (
       <>
-        <Navbar totalCount={this.state.totalCount} />
-        <HabitAddForm onAdd={this.handleAdd} />
+        <Navbar totalCount={this.state.habits.filter((item) => item.count > 0).length} />
         <Habits
           habits={this.state.habits}
+          onSubmit={this.handleSubmit}
           onIncrement={this.handleIncrement}
           onDecrement={this.handleDecrement}
           onDelete={this.handleDelete}
