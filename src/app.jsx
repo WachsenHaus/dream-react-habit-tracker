@@ -8,9 +8,9 @@ class App extends Component {
   state = {
     totalCount: 3,
     habits: [
-      { id: 1, name: "Reading", count: 0 },
-      { id: 2, name: "Running", count: 0 },
-      { id: 3, name: "Coding", count: 0 },
+      { id: 0, name: "Reading", count: 0 },
+      { id: 1, name: "Running", count: 0 },
+      { id: 2, name: "Coding", count: 0 },
     ],
   };
   changeCount = (length) => {
@@ -37,7 +37,18 @@ class App extends Component {
     this.setState({ habits });
     this.changeCount(habits.length);
   };
-  handleAdd = (habit) => {};
+  handleAdd = (inputText) => {
+    const habits = [...this.state.habits];
+    let lastIndex = habits.length - 1;
+
+    habits.push({
+      id: ++lastIndex,
+      name: inputText,
+      count: 0,
+    });
+    this.setState({ habits });
+    this.changeCount(habits.length);
+  };
 
   render() {
     return (
